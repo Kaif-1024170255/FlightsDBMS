@@ -42,13 +42,16 @@ router.get('/:id/details', async (req, res) => {
         const [foods] = await db.execute('SELECT food_id, waste_kg FROM Flight_Food WHERE flight_id=?', [id]);
         const [emissions] = await db.execute('SELECT distance_km FROM Emission_Log WHERE flight_id=?', [id]);
         const [fuel] = await db.execute('SELECT litres_used FROM Fuel_Usage WHERE flight_id=?', [id]);
+        const [waste] = await db.execute('SELECT plastic_kg, recycled_kg FROM Waste_Record WHERE flight_id=?', [id]);
 
         res.json({
             pilot_ids: pilots.map(p => p.pilot_id),
             hostess_ids: hostesses.map(h => h.hostess_id),
             foods: foods,
             distance_km: emissions[0]?.distance_km || '',
-            fuel_used: fuel[0]?.litres_used || ''
+            fuel_used: fuel[0]?.litres_used || '',
+            plastic_kg: waste[0]?.plastic_kg || '',
+            recycled_kg: waste[0]?.recycled_kg || ''
         });
     } catch (err) {
         console.error(err);
@@ -81,13 +84,21 @@ router.post('/', async (req, res) => {
             }
         }
 
+        let total_food_waste = 0;
         if (foods && foods.length > 0) {
             for (let f of foods) {
+                total_food_waste += parseFloat(f.waste_kg || 0);
                 await connection.execute('INSERT INTO Flight_Food (flight_id, food_id, quantity_loaded, quantity_sold, waste_kg) VALUES (?, ?, ?, ?, ?)', 
                 [flight_id, f.food_id, f.qty_loaded || 0, f.qty_sold || 0, f.waste_kg || 0]);
-                await connection.execute('INSERT INTO Waste_Record (flight_id, plastic_kg, food_kg, recycled_kg) VALUES (?, ?, ?, ?)',
-                [flight_id, 0, f.waste_kg || 0, 0]);
             }
+        }
+        
+        // Consolidate waste record
+        const plastic = parseFloat(req.body.plastic_kg) || 0;
+        const recycled = parseFloat(req.body.recycled_kg) || 0;
+        if (total_food_waste > 0 || plastic > 0 || recycled > 0) {
+            await connection.execute('INSERT INTO Waste_Record (flight_id, plastic_kg, food_kg, recycled_kg) VALUES (?, ?, ?, ?)',
+            [flight_id, plastic, total_food_waste, recycled]);
         }
 
         if (fuel_used || distance_km) {
@@ -139,13 +150,21 @@ router.put('/:id', async (req, res) => {
 
         await connection.execute('DELETE FROM Flight_Food WHERE flight_id=?', [id]);
         await connection.execute('DELETE FROM Waste_Record WHERE flight_id=?', [id]); // Reset waste to re-calculate foods safely
+        
+        let total_food_waste = 0;
         if (foods && foods.length > 0) {
             for (let f of foods) {
+                total_food_waste += parseFloat(f.waste_kg || 0);
                 await connection.execute('INSERT INTO Flight_Food (flight_id, food_id, quantity_loaded, quantity_sold, waste_kg) VALUES (?, ?, ?, ?, ?)', 
                 [id, f.food_id, f.qty_loaded || 0, f.qty_sold || 0, f.waste_kg || 0]);
-                await connection.execute('INSERT INTO Waste_Record (flight_id, plastic_kg, food_kg, recycled_kg) VALUES (?, ?, ?, ?)',
-                [id, 0, f.waste_kg || 0, 0]);
             }
+        }
+
+        const plastic = parseFloat(req.body.plastic_kg) || 0;
+        const recycled = parseFloat(req.body.recycled_kg) || 0;
+        if (total_food_waste > 0 || plastic > 0 || recycled > 0) {
+            await connection.execute('INSERT INTO Waste_Record (flight_id, plastic_kg, food_kg, recycled_kg) VALUES (?, ?, ?, ?)',
+            [id, plastic, total_food_waste, recycled]);
         }
 
         await connection.execute('DELETE FROM Fuel_Usage WHERE flight_id=?', [id]);

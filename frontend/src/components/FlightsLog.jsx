@@ -10,7 +10,7 @@ export default function FlightsLog() {
   const [editingFlight, setEditingFlight] = useState(null);
   
   const [formData, setFormData] = useState({
-    flight_no: '', source: '', destination: '', departure_time: '', aircraft_id: '', fuel_used: '', distance_km: ''
+    flight_no: '', source: '', destination: '', departure_time: '', aircraft_id: '', fuel_used: '', distance_km: '', plastic_kg: '', recycled_kg: ''
   });
   
   const [selectedPilots, setSelectedPilots] = useState([]);
@@ -54,7 +54,9 @@ export default function FlightsLog() {
           departure_time: new Date(flight.departure_time).toISOString().slice(0, 16), 
           aircraft_id: flight.aircraft_id || '',
           fuel_used: details.fuel_used || '',
-          distance_km: details.distance_km || ''
+          distance_km: details.distance_km || '',
+          plastic_kg: details.plastic_kg || '',
+          recycled_kg: details.recycled_kg || ''
         });
         setSelectedPilots(details.pilot_ids || []);
         setSelectedHostesses(details.hostess_ids || []);
@@ -65,7 +67,7 @@ export default function FlightsLog() {
       }
     } else {
       setEditingFlight(null);
-      setFormData({ flight_no: '', source: '', destination: '', departure_time: '', aircraft_id: '', fuel_used: '', distance_km: '' });
+      setFormData({ flight_no: '', source: '', destination: '', departure_time: '', aircraft_id: '', fuel_used: '', distance_km: '', plastic_kg: '', recycled_kg: '' });
       setSelectedPilots([]); setSelectedHostesses([]); setSelectedFoods([]);
     }
     setModalOpen(true);
@@ -215,6 +217,16 @@ export default function FlightsLog() {
                     <div className="form-group" style={{ flex: 1 }}>
                         <label>Fuel Used (Liters)</label>
                         <input type="number" step="0.1" className="form-control" value={formData.fuel_used} onChange={e => setFormData({...formData, fuel_used: e.target.value})} placeholder="(e.g. 3500)"/>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                    <div className="form-group" style={{ flex: 1 }}>
+                        <label>Ext. Plastic Waste (kg)</label>
+                        <input type="number" step="0.1" className="form-control" value={formData.plastic_kg} onChange={e => setFormData({...formData, plastic_kg: e.target.value})} placeholder="e.g. 15.5"/>
+                    </div>
+                    <div className="form-group" style={{ flex: 1 }}>
+                        <label>Recovered Recyclables (kg)</label>
+                        <input type="number" step="0.1" className="form-control" value={formData.recycled_kg} onChange={e => setFormData({...formData, recycled_kg: e.target.value})} placeholder="e.g. 10.0"/>
                     </div>
                   </div>
                 </div>

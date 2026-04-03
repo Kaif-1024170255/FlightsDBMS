@@ -304,3 +304,8 @@ ul { list-style: none; }
   outline: none;
   border-color: var(--primary-glow);
 }
+
+select option {
+  background-color: #0f172a; /* Force dark background for dropdown options so text is readable */
+  color: #f8fafc;
+}
