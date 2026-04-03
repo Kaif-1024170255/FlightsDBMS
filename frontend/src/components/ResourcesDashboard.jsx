@@ -59,13 +59,21 @@ export default function ResourcesDashboard() {
     } catch (err) { alert("Failed to add food."); }
   };
 
+  const handleAddAircraft = async () => {
+    let model = prompt("Enter new Aircraft Model (e.g. Boeing 777):");
+    if (!model) return;
+    let efficiency = prompt("Enter fuel efficiency (L/km):");
+    try {
+      await axios.post(`http://localhost:5000/api/resources/aircraft`, { model, fuel_efficiency: parseFloat(efficiency) || 0 });
+      fetchResources();
+    } catch (err) { alert("Failed to add aircraft."); }
+  };
+
   const RenderResourceCard = ({ title, icon, items, typeKey, idKey, nameField, infoField, addHandler }) => (
     <div className="glass-panel">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <h3 style={{ display:'flex', alignItems:'center', gap:'0.5rem', fontSize:'1.2rem' }}>{icon} {title}</h3>
-        {typeKey !== 'aircraft' && (
-            <button onClick={addHandler} style={{ background:'rgba(16, 185, 129, 0.2)', border:'none', color:'#10b981', padding: '0.4rem', borderRadius: '8px', cursor:'pointer' }}><Plus size={16}/></button>
-        )}
+        <button onClick={addHandler} style={{ background:'rgba(16, 185, 129, 0.2)', border:'none', color:'#10b981', padding: '0.4rem', borderRadius: '8px', cursor:'pointer' }}><Plus size={16}/></button>
       </div>
       <div style={{ maxHeight: '250px', overflowY: 'auto' }}>
         <table className="glass-table">
@@ -95,7 +103,7 @@ export default function ResourcesDashboard() {
         <RenderResourceCard title="Pilots Roster" icon={<Users size={20}/>} items={resources.pilots} typeKey="pilot" idKey="pilot_id" nameField="name" infoField={(i) => `${i.experience_years} yrs exp`} addHandler={() => handleAddData('pilot')} />
         <RenderResourceCard title="Hostess Roster" icon={<Users size={20}/>} items={resources.hostesses} typeKey="hostess" idKey="hostess_id" nameField="name" infoField={(i) => `${i.experience_years} yrs exp`} addHandler={() => handleAddData('hostess')} />
         <RenderResourceCard title="Food & Catering" icon={<Utensils size={20}/>} items={resources.foods} typeKey="food" idKey="food_id" nameField="food_name" infoField={(i) => `${i.type} • CSR: ${i.carbon_score}`} addHandler={handleAddFood} />
-        <RenderResourceCard title="Aircraft Fleet" icon={<Plane size={20}/>} items={resources.aircrafts} typeKey="aircraft" idKey="aircraft_id" nameField="model" infoField={(i) => `${i.fuel_efficiency} L/km`} addHandler={() => {}} />
+        <RenderResourceCard title="Aircraft Fleet" icon={<Plane size={20}/>} items={resources.aircrafts} typeKey="aircraft" idKey="aircraft_id" nameField="model" infoField={(i) => `${i.fuel_efficiency} L/km`} addHandler={handleAddAircraft} />
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ export default function FlightsLog() {
   const [editingFlight, setEditingFlight] = useState(null);
   
   const [formData, setFormData] = useState({
-    flight_no: '', source: '', destination: '', departure_time: '', aircraft_id: ''
+    flight_no: '', source: '', destination: '', departure_time: '', aircraft_id: '', fuel_used: '', distance_km: ''
   });
   
   const [selectedPilots, setSelectedPilots] = useState([]);
@@ -43,20 +43,29 @@ export default function FlightsLog() {
 
   useEffect(() => { fetchData() }, []);
 
-  const openModal = (flight = null) => {
+  const openModal = async (flight = null) => {
     if (flight) {
-      setEditingFlight(flight);
-      setFormData({
-        flight_no: flight.flight_no, source: flight.source, destination: flight.destination,
-        departure_time: new Date(flight.departure_time).toISOString().slice(0, 16), 
-        aircraft_id: flight.aircraft_id || ''
-      });
-      setSelectedPilots([]);
-      setSelectedHostesses([]);
-      setSelectedFoods([]);
+      try {
+        const res = await axios.get(`http://localhost:5000/api/flights/${flight.flight_id}/details`);
+        const details = res.data;
+        setEditingFlight(flight);
+        setFormData({
+          flight_no: flight.flight_no, source: flight.source, destination: flight.destination,
+          departure_time: new Date(flight.departure_time).toISOString().slice(0, 16), 
+          aircraft_id: flight.aircraft_id || '',
+          fuel_used: details.fuel_used || '',
+          distance_km: details.distance_km || ''
+        });
+        setSelectedPilots(details.pilot_ids || []);
+        setSelectedHostesses(details.hostess_ids || []);
+        setSelectedFoods(details.foods || []);
+      } catch (e) {
+          alert("Failed to load flight details.");
+          return;
+      }
     } else {
       setEditingFlight(null);
-      setFormData({ flight_no: '', source: '', destination: '', departure_time: '', aircraft_id: '' });
+      setFormData({ flight_no: '', source: '', destination: '', departure_time: '', aircraft_id: '', fuel_used: '', distance_km: '' });
       setSelectedPilots([]); setSelectedHostesses([]); setSelectedFoods([]);
     }
     setModalOpen(true);
@@ -70,7 +79,10 @@ export default function FlightsLog() {
       else await axios.post(`http://localhost:5000/api/flights`, payload);
       setModalOpen(false);
       fetchData();
-    } catch (err) { alert("Failed to save flight."); }
+    } catch (err) { 
+        const msg = err.response?.data?.error || err.message;
+        alert(`Failed to save flight. Backend says: ${msg}`); 
+    }
   };
 
   const handleDelete = async (id) => {
@@ -193,6 +205,17 @@ export default function FlightsLog() {
                       <option value="">-- Let system assign --</option>
                       {resources.aircrafts.map(a => <option key={a.aircraft_id} value={a.aircraft_id}>{a.model}</option>)}
                     </select>
+                  </div>
+                  <h4 className="text-muted" style={{ marginBottom: '1rem', marginTop: '1.5rem', borderBottom: '1px solid #1e293b', paddingBottom:'0.5rem'}}>Flight Post-Metrics</h4>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <div className="form-group" style={{ flex: 1 }}>
+                        <label>Distance (km)</label>
+                        <input type="number" step="0.1" className="form-control" value={formData.distance_km} onChange={e => setFormData({...formData, distance_km: e.target.value})} placeholder="(e.g. 1500)"/>
+                    </div>
+                    <div className="form-group" style={{ flex: 1 }}>
+                        <label>Fuel Used (Liters)</label>
+                        <input type="number" step="0.1" className="form-control" value={formData.fuel_used} onChange={e => setFormData({...formData, fuel_used: e.target.value})} placeholder="(e.g. 3500)"/>
+                    </div>
                   </div>
                 </div>
 

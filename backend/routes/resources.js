@@ -45,6 +45,13 @@ router.post('/food', async (req, res) => {
     } catch (err) { res.status(500).send(err.message); }
 });
 
+router.post('/aircraft', async (req, res) => {
+    try {
+        await db.execute('INSERT INTO Aircraft (model, fuel_efficiency) VALUES (?, ?)', [req.body.model, req.body.fuel_efficiency || 0]);
+        res.json({ message: 'Aircraft created' });
+    } catch (err) { res.status(500).send(err.message); }
+});
+
 // Delete resources
 router.delete('/:type/:id', async (req, res) => {
     try {
