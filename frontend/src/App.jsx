@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
-import { Leaf, LayoutDashboard, Plane, Settings, Users } from 'lucide-react';
+import { Leaf, LayoutDashboard, Plane, Users, Database } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import FlightsLog from './components/FlightsLog';
 import ResourcesDashboard from './components/ResourcesDashboard';
+import JoinsDemo from './components/JoinsDemo';
 
 function App() {
   return (
@@ -26,9 +27,10 @@ function App() {
             <NavLink to="/resources" className={({isActive}) => `nav-link ${isActive ? 'active' : ''}`}>
               <Users size={20} /> Crew & Services
             </NavLink>
-            <NavLink to="/settings" className={({isActive}) => `nav-link ${isActive ? 'active' : ''}`}>
-              <Settings size={20} /> Settings
+            <NavLink to="/joins" className={({isActive}) => `nav-link ${isActive ? 'active' : ''}`}>
+              <Database size={20} /> Database Joins
             </NavLink>
+
           </nav>
         </aside>
 
@@ -48,8 +50,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/flights" element={<FlightsLog />} />
             <Route path="/resources" element={<ResourcesDashboard />} />
-            {/* Fallback settings route */}
-            <Route path="/settings" element={<div className="glass-panel animate-fade-in"><h2>Settings</h2><p className="text-muted">Database configuration and system settings.</p></div>} />
+            <Route path="/joins" element={<JoinsDemo />} />
+
           </Routes>
         </main>
       </div>

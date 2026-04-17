@@ -10,6 +10,7 @@ app.use(express.json());
 app.use('/api/flights', require('./routes/flights'));
 app.use('/api/sustainability', require('./routes/sustainability'));
 app.use('/api/resources', require('./routes/resources'));
+app.use('/api/joins', require('./routes/joins'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
