@@ -41,7 +41,7 @@ function App() {
               <h1 style={{ fontSize: '2rem', fontWeight: '700' }}>Overview</h1>
               <p className="text-muted">Monitor and optimize your airline's environmental impact.</p>
             </div>
-            <button className="glass-btn primary">
+            <button className="glass-btn primary" onClick={() => window.open('http://localhost:5000/api/sustainability/report/csv', '_blank')}>
               <Leaf size={18} /> Download ESG Report
             </button>
           </header>
