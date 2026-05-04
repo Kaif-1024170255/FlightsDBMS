@@ -99,7 +99,7 @@ export default function ResourcesDashboard() {
   return (
     <div className="animate-fade-in" style={{ paddingBottom: '2rem' }}>
       <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>Crew & Services Management</h2>
-      <div className="dashboard-grid">
+      <div className="resources-grid">
         <RenderResourceCard title="Pilots Roster" icon={<Users size={20}/>} items={resources.pilots} typeKey="pilot" idKey="pilot_id" nameField="name" infoField={(i) => `${i.experience_years} yrs exp`} addHandler={() => handleAddData('pilot')} />
         <RenderResourceCard title="Hostess Roster" icon={<Users size={20}/>} items={resources.hostesses} typeKey="hostess" idKey="hostess_id" nameField="name" infoField={(i) => `${i.experience_years} yrs exp`} addHandler={() => handleAddData('hostess')} />
         <RenderResourceCard title="Food & Catering" icon={<Utensils size={20}/>} items={resources.foods} typeKey="food" idKey="food_id" nameField="food_name" infoField={(i) => `${i.type} • CSR: ${i.carbon_score}`} addHandler={handleAddFood} />
