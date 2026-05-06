@@ -72,7 +72,3 @@ BEGIN
 END //
 
 DELIMITER ;
-
--- Initialize scores for existing dummy data
-CALL Calculate_Sustainability_Score(1);
-CALL Calculate_Sustainability_Score(3);
