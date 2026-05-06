@@ -102,8 +102,8 @@ export default function JoinsDemo() {
 
         <p className="form-section-title" style={{ marginTop: '1rem' }}>Executed SQL Query</p>
         <pre style={{
-          background: '#1e293b',
-          color: '#7dd3fc',
+          background: '#0f1a14',
+          color: '#4ade80',
           padding: '1rem 1.25rem',
           borderRadius: 'var(--radius)',
           overflowX: 'auto',

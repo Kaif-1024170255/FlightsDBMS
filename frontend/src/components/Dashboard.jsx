@@ -22,11 +22,12 @@ const wasteData = [
 ];
 
 const tooltipStyle = {
-  background: '#fff',
-  border: '1px solid #cbd5e1',
+  background: '#162019',
+  border: '1px solid #2a3f30',
   borderRadius: '8px',
   fontSize: '0.8rem',
-  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+  color: '#d1fae5',
+  boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
 };
 
 export default function Dashboard() {
@@ -82,20 +83,20 @@ export default function Dashboard() {
               <AreaChart data={mockChartData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
                 <defs>
                   <linearGradient id="gradCo2" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#0369a1" stopOpacity={0.25} />
-                    <stop offset="95%" stopColor="#0369a1" stopOpacity={0} />
+                    <stop offset="5%"  stopColor="#4ade80" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#4ade80" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="gradFuel" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#b45309" stopOpacity={0.2} />
-                    <stop offset="95%" stopColor="#b45309" stopOpacity={0} />
+                    <stop offset="5%"  stopColor="#34d399" stopOpacity={0.2} />
+                    <stop offset="95%" stopColor="#34d399" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="name" stroke="#94a3b8" tick={{ fontSize: 12 }} />
-                <YAxis stroke="#94a3b8" tick={{ fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#1f3028" />
+                <XAxis dataKey="name" stroke="#3d6b4a" tick={{ fontSize: 12, fill: '#6aaa7e' }} />
+                <YAxis stroke="#3d6b4a" tick={{ fontSize: 12, fill: '#6aaa7e' }} />
                 <Tooltip contentStyle={tooltipStyle} />
-                <Area type="monotone" dataKey="co2"  name="CO₂ (kg)" stroke="#0369a1" fill="url(#gradCo2)"  strokeWidth={2} dot={false} />
-                <Area type="monotone" dataKey="fuel" name="Fuel (L)" stroke="#b45309" fill="url(#gradFuel)" strokeWidth={2} dot={false} />
+                <Area type="monotone" dataKey="co2"  name="CO₂ (kg)" stroke="#4ade80" fill="url(#gradCo2)"  strokeWidth={2} dot={false} />
+                <Area type="monotone" dataKey="fuel" name="Fuel (L)" stroke="#34d399" fill="url(#gradFuel)" strokeWidth={2} dot={false} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -106,11 +107,11 @@ export default function Dashboard() {
           <div style={{ height: 260 }}>
             <ResponsiveContainer>
               <BarChart data={wasteData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="name" stroke="#94a3b8" tick={{ fontSize: 12 }} />
-                <YAxis stroke="#94a3b8" tick={{ fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#1f3028" />
+                <XAxis dataKey="name" stroke="#3d6b4a" tick={{ fontSize: 12, fill: '#6aaa7e' }} />
+                <YAxis stroke="#3d6b4a" tick={{ fontSize: 12, fill: '#6aaa7e' }} />
                 <Tooltip contentStyle={tooltipStyle} />
-                <Bar dataKey="kg" name="Waste (kg)" fill="#0369a1" radius={[4, 4, 0, 0]} maxBarSize={48} />
+                <Bar dataKey="kg" name="Waste (kg)" fill="#22c55e" radius={[4, 4, 0, 0]} maxBarSize={48} />
               </BarChart>
             </ResponsiveContainer>
           </div>
