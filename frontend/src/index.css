@@ -2,15 +2,15 @@
 
 :root {
   /* ── Backgrounds ── */
-  --bg:           #0c1510;
-  --bg-alt:       #0f1b13;
-  --surface:      #162019;
-  --surface-alt:  #1a2820;
-  --surface-raise:#1f3126;
+  --bg:           #0f1117;
+  --bg-alt:       #13181f;
+  --surface:      #1a2030;
+  --surface-alt:  #1e2638;
+  --surface-raise:#232c3d;
 
   /* ── Borders ── */
-  --border:       #2a3f30;
-  --border-light: #1f3028;
+  --border:       #2a3347;
+  --border-light: #1e2840;
 
   /* ── Green Primary ── */
   --primary:      #4ade80;   /* bright eco-green */
@@ -23,9 +23,9 @@
   --accent-light: rgba(52, 211, 153, 0.12);
 
   /* ── Text ── */
-  --text-main:    #d1fae5;
-  --text-muted:   #6aaa7e;
-  --text-light:   #3d6b4a;
+  --text-main:    #e2e8f0;
+  --text-muted:   #64748b;
+  --text-light:   #3d4f63;
 
   /* ── Status Colors ── */
   --danger:       #f87171;

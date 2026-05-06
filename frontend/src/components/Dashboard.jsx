@@ -91,9 +91,9 @@ export default function Dashboard() {
                     <stop offset="95%" stopColor="#34d399" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f3028" />
-                <XAxis dataKey="name" stroke="#3d6b4a" tick={{ fontSize: 12, fill: '#6aaa7e' }} />
-                <YAxis stroke="#3d6b4a" tick={{ fontSize: 12, fill: '#6aaa7e' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#1e2840" />
+                <XAxis dataKey="name" stroke="#3d4f63" tick={{ fontSize: 12, fill: '#64748b' }} />
+                <YAxis stroke="#3d4f63" tick={{ fontSize: 12, fill: '#64748b' }} />
                 <Tooltip contentStyle={tooltipStyle} />
                 <Area type="monotone" dataKey="co2"  name="CO₂ (kg)" stroke="#4ade80" fill="url(#gradCo2)"  strokeWidth={2} dot={false} />
                 <Area type="monotone" dataKey="fuel" name="Fuel (L)" stroke="#34d399" fill="url(#gradFuel)" strokeWidth={2} dot={false} />
