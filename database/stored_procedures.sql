@@ -21,9 +21,9 @@ BEGIN
     INTO v_waste, v_recycled 
     FROM Waste_Record WHERE flight_id = p_flight_id;
 
-    -- Basic arbitrary scoring logic for demonstration
+    -- Basic arbitrary scoring logic for demonstration.
     -- Base score 100. Lower is better for CO2 and waste. Recycling adds points back.
-    -- Assuming a very small scale penalty just to show variance
+    -- Assuming a very small scale penalty just to show variance.
     SET v_score = 100.00 - (v_co2 * 0.005) - (v_waste * 0.5) + (v_recycled * 1.5);
     
     IF v_score > 100 THEN SET v_score = 100; END IF;
