@@ -1,5 +1,5 @@
 -- Green Flight Management & Sustainability Analytics System
--- Initialize Database Schema
+-- Initialize Database Schema.
 CREATE DATABASE IF NOT EXISTS flights_db;
 USE flights_db;
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS Flight_Pilot (
     FOREIGN KEY (pilot_id) REFERENCES Pilot(pilot_id) ON DELETE CASCADE
 );
 
--- 6. Flight_Hostess (M:N mapping)
+-- 6. Flight_Hostesss (M:N mapping)
 CREATE TABLE IF NOT EXISTS Flight_Hostess (
     flight_id INT,
     hostess_id INT,
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS Food (
     locally_sourced BOOLEAN
 );
 
--- 12. Flight_Food (M:N mapping with quantities)
+-- 12. Flight_Food (M:N mapping with quantities..)
 CREATE TABLE IF NOT EXISTS Flight_Food (
     flight_id INT,
     food_id INT,
